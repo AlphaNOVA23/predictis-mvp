@@ -55,4 +55,3 @@ def get_forecast():
     }
 
     return jsonify(response_payload)
-
