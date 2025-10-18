@@ -1,6 +1,15 @@
 import os
+import sys
 from flask import Flask, jsonify
 from flask_cors import CORS
+
+# --- FIX 1: Add the script's directory to the Python path ---
+# This ensures that the 'agents' module can be found in Vercel's environment.
+_cwd = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, _cwd)
+# --- END OF FIX 1 ---
+
+# Now that the path is set, these imports will work reliably.
 from agents.ingestion_agent import ingest_data
 from agents.predictive_agent import PredictiveAgent
 from agents.advisory_agent import generate_advisory
@@ -9,15 +18,10 @@ from agents.advisory_agent import generate_advisory
 app = Flask(__name__)
 CORS(app)
 
-# --- FIX: Create absolute paths for data files ---
-# This ensures the script can find the CSV files in Vercel's environment.
-# __file__ is the path to the current script (api.py)
-# os.path.dirname gets the directory of that script ('/Backend/')
-# os.path.join combines the paths correctly.
-_cwd = os.path.dirname(os.path.abspath(__file__))
+# --- FIX 2: Create absolute paths for data files ---
 HISTORICAL_DATA_PATH = os.path.join(_cwd, 'data', 'historical_data.csv')
 FUTURE_DATA_PATH = os.path.join(_cwd, 'data', 'future_data.csv')
-# --- END OF FIX ---
+# --- END OF FIX 2 ---
 
 # --- API Endpoint Definition ---
 @app.route('/api/forecast', methods=['GET'])
@@ -51,3 +55,4 @@ def get_forecast():
     }
 
     return jsonify(response_payload)
+
