@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Row, Col, Card, Alert, Table, Badge, Spinner } from 'react-bootstrap';
 import { ArrowUp, ArrowDown } from 'react-bootstrap-icons';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 // Component for the top KPI cards
 const KpiCard = ({ title, value, change, changeType, period }) => {
@@ -29,8 +29,15 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://127.0.0.1:5000/api/forecast');
-                if (!response.ok) throw new Error('Network response was not ok');
+                // --- THE REAL FIX ---
+                // Use a relative path. This works on Vercel (routes via vercel.json)
+                // and locally (routes via the new proxy in package.json).
+                const response = await fetch('/api/forecast');
+                // --- END OF FIX ---
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const data = await response.json();
                 const formattedData = data.forecast.map(item => ({
                     ...item,
@@ -39,7 +46,8 @@ const Dashboard = () => {
                 setForecastData(formattedData);
                 setApiAdvisory(data.advisory);
             } catch (e) {
-                setError('Failed to fetch data from backend. Is the server running?');
+                console.error("Fetch error:", e.message);
+                setError('Failed to fetch data from backend. The API endpoint might be down or misconfigured on the server.');
             } finally {
                 setIsLoading(false);
             }
@@ -118,6 +126,4 @@ const Dashboard = () => {
         </div>
     );
 };
-
-export default Dashboard;
 
