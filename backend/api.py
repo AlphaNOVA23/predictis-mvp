@@ -4,7 +4,6 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 
 # --- FIX 1: Add the script's directory to the Python path ---
-# This ensures that the 'agents' module can be found in Vercel's environment.
 _cwd = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, _cwd)
 # --- END OF FIX 1 ---
