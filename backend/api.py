@@ -6,7 +6,6 @@ from agents.advisory_agent import generate_advisory
 
 # --- Initialize Flask App ---
 app = Flask(__name__)
-# Allow requests from your React app's origin (e.g., http://localhost:3000)
 CORS(app)
 
 # --- API Endpoint Definition ---
@@ -35,10 +34,8 @@ def get_forecast():
     advisory_message = generate_advisory(forecast_df, historical_df)
 
     # 4. Format data for JSON response (React friendly)
-    # Convert dataframe to a list of dictionaries
     forecast_data = forecast_df.to_dict('records')
 
-    # Prepare final JSON payload
     response_payload = {
         "advisory": advisory_message,
         "forecast": forecast_data
@@ -46,7 +43,6 @@ def get_forecast():
 
     return jsonify(response_payload)
 
-# --- Run the App ---
-if __name__ == '__main__':
-    # Runs the server on http://127.0.0.1:5000
-    app.run(debug=True, port=5000)
+# --- IMPORTANT: DO NOT include the app.run() block ---
+# Vercel handles the serving automatically.
+# The 'if __name__ == "__main__":' block has been removed.
