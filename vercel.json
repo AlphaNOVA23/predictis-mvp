@@ -9,7 +9,7 @@
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "outputDirectory": "frontend/build"
+        "outputDirectory": "build"
       }
     }
   ],
@@ -20,23 +20,23 @@
     },
     {
       "src": "/static/(.*)",
-      "dest": "frontend/build/static/$1"
+      "dest": "/static/$1"
     },
     {
       "src": "/logo.png",
-      "dest": "frontend/build/logo.png"
+      "dest": "/logo.png"
     },
     {
       "src": "/manifest.json",
-      "dest": "frontend/build/manifest.json"
+      "dest": "/manifest.json"
     },
     {
       "src": "/favicon.ico",
-      "dest": "frontend/build/logo.png"
+      "dest": "/logo.png"
     },
     {
       "src": "/(.*)",
-      "dest": "frontend/build/index.html"
+      "dest": "/index.html"
     }
   ]
 }
