@@ -1,0 +1,154 @@
+/* src/App.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --sidebar-bg: #ffffff;
+  --content-bg: #f4f7fa;
+  --header-bg: #ffffff;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --accent-blue: #3b82f6;
+  --border-color: #e2e8f0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--text-primary);
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-content-area {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  background-color: var(--content-bg);
+}
+
+/* --- Sidebar --- */
+.sidebar {
+  width: 250px;
+  background-color: var(--sidebar-bg);
+  padding: 1.5rem 1rem;
+  border-right: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+.sidebar-link {
+  color: var(--text-secondary);
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+.sidebar-link:hover {
+  background-color: #f1f5f9;
+  color: var(--accent-blue);
+}
+.sidebar .nav-link.active {
+  background-color: var(--accent-blue);
+  color: #ffffff;
+}
+.sidebar .nav-link.active svg {
+  color: #ffffff;
+}
+
+/* --- Header --- */
+.header-nav {
+  background-color: var(--header-bg) !important;
+  border-bottom: 1px solid var(--border-color);
+}
+.logo-text {
+  font-weight: 700;
+  color: var(--text-primary) !important;
+  letter-spacing: 1px;
+}
+.status-badge {
+  font-weight: 600;
+  padding: 0.4em 0.8em;
+  margin-left: 1rem;
+}
+.search-bar-container {
+  width: 350px;
+}
+.search-input-group .form-control, .search-input-group .input-group-text {
+  background-color: #f8fafc;
+  border: 1px solid var(--border-color);
+}
+.search-input-group .form-control:focus {
+  box-shadow: none;
+  border-color: var(--accent-blue);
+  background-color: #fff;
+}
+.notification-icon {
+  position: relative;
+  cursor: pointer;
+}
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -8px;
+  font-size: 0.65em;
+}
+.user-dropdown {
+  background: transparent !important;
+  border: none !important;
+  color: var(--text-primary) !important;
+  font-weight: 600;
+}
+.user-dropdown::after {
+  display: inline-block;
+  margin-left: 0.55em;
+}
+
+/* --- Dashboard Content --- */
+.dashboard-content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+.dashboard-title {
+  font-weight: 700;
+}
+.kpi-card .card-body {
+  padding: 1.5rem;
+}
+.kpi-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+.kpi-value {
+  font-size: 2.25rem;
+  font-weight: 700;
+}
+.kpi-change {
+  font-weight: 600;
+}
+.kpi-period {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.critical-advisories .alert-heading {
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+.advisory-badge {
+  margin: 0.25rem;
+  padding: 0.5em 1em;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.recommendation-table th {
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
