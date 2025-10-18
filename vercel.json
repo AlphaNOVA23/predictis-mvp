@@ -31,6 +31,10 @@
       "dest": "frontend/build/manifest.json"
     },
     {
+      "src": "/favicon.ico",
+      "dest": "frontend/build/logo.png"
+    },
+    {
       "src": "/(.*)",
       "dest": "frontend/build/index.html"
     }
