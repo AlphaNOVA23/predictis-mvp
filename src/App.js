@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Header from './components/Header';
-import Sidebar from './components/Sidebar';
-import Dashboard from './components/Dashboard';
+import Header from './Header';
+import Sidebar from './Sidebar';
+import Dashboard from './Dashboard';
 import './App.css';
 
 export default function App() {
