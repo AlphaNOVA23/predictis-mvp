@@ -1,58 +1,46 @@
 import pandas as pd
 from sklearn.linear_model import LinearRegression
-import sys
 
 class PredictiveAgent:
     """
-    An agent that trains a model and generates forecasts.
+    An agent responsible for training a predictive model and generating forecasts.
     """
     def __init__(self):
-        """
-        Initializes the PredictiveAgent with a Linear Regression model.
-        """
         self.model = LinearRegression()
 
-    def generate_forecast(self, historical_df: pd.DataFrame, future_df: pd.DataFrame) -> pd.DataFrame:
+    def generate_forecast(self, historical_df, future_df):
         """
         Trains a linear regression model on historical data and predicts future admissions.
         """
-        if historical_df is None or future_df is None:
-            return pd.DataFrame()
-
-        features = ['AQI_PM25', 'Is_Festival']
-        target = 'Daily_Respiratory_Admissions'
-        
-        # --- ROBUST FIX with DIAGNOSTICS ---
         try:
-            # Verify all required columns exist
-            required_cols = features + [target]
-            for col in required_cols:
-                if col not in historical_df.columns:
-                    # Raise a KeyError manually to be caught by our handler
-                    raise KeyError(f"Required column '{col}' not found in historical data.")
+            # Define features and target
+            features = ['AQI_PM25', 'Is_Festival']
+            target = 'Daily_Respiratory_Admissions'
 
             X_train = historical_df[features]
             y_train = historical_df[target]
 
-        except KeyError as e:
-            # This block will now catch the error and provide a helpful message
-            print("\n--- FATAL ERROR in Predictive Agent ---", file=sys.stderr)
-            print(f"A required column was not found in your historical_data.csv file.", file=sys.stderr)
-            print(f"ERROR: {e}", file=sys.stderr)
-            print(f"Columns your code *actually found* are: {historical_df.columns.tolist()}", file=sys.stderr)
-            print("\nSOLUTION: Please check for typos or spelling differences in your CSV file's header row.", file=sys.stderr)
-            print("---------------------------------------\n", file=sys.stderr)
-            # Return an empty dataframe to prevent the app from crashing
-            return pd.DataFrame()
-        # --- END OF FIX ---
-        
-        self.model.fit(X_train, y_train)
-        
-        X_future = future_df[features]
-        predictions = self.model.predict(X_future)
-        
-        forecast_df = future_df.copy()
-        forecast_df['Predicted_Admissions'] = predictions.astype(int)
-        
-        return forecast_df
+            # Train the model
+            self.model.fit(X_train, y_train)
 
+            # Predict on future data
+            X_future = future_df[features]
+            future_predictions = self.model.predict(X_future)
+
+            # Create a forecast DataFrame
+            forecast_df = pd.DataFrame({
+                'Date': future_df['Date'],
+                'Predicted_Admissions': future_predictions
+            })
+            
+            # Ensure predictions are non-negative integers
+            forecast_df['Predicted_Admissions'] = forecast_df['Predicted_Admissions'].round().astype(int)
+            forecast_df.loc[forecast_df['Predicted_Admissions'] < 0, 'Predicted_Admissions'] = 0
+
+            return forecast_df
+        except KeyError as e:
+            print(f"Error: A required column is missing from the data. {e}")
+            return pd.DataFrame()
+        except Exception as e:
+            print(f"An error occurred during forecast generation: {e}")
+            return pd.DataFrame()
