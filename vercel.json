@@ -19,22 +19,6 @@
       "dest": "backend/main.py"
     },
     {
-      "src": "/static/(.*)",
-      "dest": "build/static/$1"
-    },
-    {
-      "src": "/manifest.json",
-      "dest": "build/manifest.json"
-    },
-    {
-      "src": "/logo.png",
-      "dest": "build/logo.png"
-    },
-    {
-      "src": "/favicon.ico",
-      "dest": "build/logo.png"
-    },
-    {
       "src": "/(.*)",
       "dest": "build/index.html"
     }
