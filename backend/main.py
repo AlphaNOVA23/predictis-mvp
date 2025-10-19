@@ -3,19 +3,16 @@ import sys
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-# Add the current directory to the Python path to ensure agents can be found
+# Add the current directory to the Python path
 _cwd = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, _cwd)
 
-# Now that the path is set, these imports will work reliably.
 from agents.ingestion_agent import ingest_data
 from agents.predictive_agent import PredictiveAgent
 from agents.advisory_agent import generate_advisory
 
 app = FastAPI()
 
-# --- Middleware for CORS (for local development) ---
-# This allows your local React app (on port 3000) to talk to this backend (on port 8000)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],
@@ -25,7 +22,6 @@ app.add_middleware(
 )
 
 # --- Data File Paths ---
-# Create absolute paths to ensure Vercel can find the data files.
 HISTORICAL_DATA_PATH = os.path.join(_cwd, 'data', 'historical_data.csv')
 FUTURE_DATA_PATH = os.path.join(_cwd, 'data', 'future_data.csv')
 
@@ -33,22 +29,20 @@ FUTURE_DATA_PATH = os.path.join(_cwd, 'data', 'future_data.csv')
 @app.get("/api/forecast")
 def get_forecast():
     """
-    This endpoint orchestrates the agent workflow and returns the
-    forecast and advisory as JSON.
+    Orchestrates the agent workflow without pandas.
     """
-    historical_df, future_df = ingest_data(HISTORICAL_DATA_PATH, FUTURE_DATA_PATH)
-    if historical_df is None or future_df is None:
+    historical_data, future_data = ingest_data(HISTORICAL_DATA_PATH, FUTURE_DATA_PATH)
+    if historical_data is None or future_data is None:
         return {"error": "Failed to load data files on server."}
 
     predictive_agent = PredictiveAgent()
-    forecast_df = predictive_agent.generate_forecast(historical_df, future_df)
-    if forecast_df.empty:
+    forecast_list = predictive_agent.generate_forecast(historical_data, future_data)
+    if not forecast_list:
         return {"error": "Failed to generate forecast."}
 
-    advisory_message = generate_advisory(forecast_df, historical_df)
-    forecast_data = forecast_df.to_dict('records')
+    advisory_message = generate_advisory(forecast_list, historical_data)
 
     return {
         "advisory": advisory_message,
-        "forecast": forecast_data
+        "forecast": forecast_list  # This is now a list of dicts
     }

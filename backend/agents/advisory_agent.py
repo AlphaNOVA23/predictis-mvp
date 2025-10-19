@@ -1,10 +1,13 @@
-def generate_advisory(forecast_df, historical_df):
-    """
-    Generates a simple resource advisory based on the forecast.
-    """
+import numpy as np
+
+def generate_advisory(forecast_list, historical_data):
     try:
-        historical_mean = historical_df['Daily_Respiratory_Admissions'].mean()
-        forecast_peak = forecast_df['Predicted_Admissions'].max()
+        # Extract data
+        historical_mean = np.mean(historical_data['target'])
+        
+        # Get predictions from the forecast list
+        forecast_predictions = np.array([item['Predicted_Admissions'] for item in forecast_list])
+        forecast_peak = np.max(forecast_predictions)
         
         # Rule: If the peak forecast is 25% above the historical average, issue an alert.
         if forecast_peak > (historical_mean * 1.25):
