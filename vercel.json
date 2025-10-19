@@ -2,15 +2,15 @@
   "version": 2,
   "builds": [
     {
-      "src": "backend/main.py",
-      "use": "@vercel/python"
-    },
-    {
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "outputDirectory": "build" 
+        "outputDirectory": "build"
       }
+    },
+    {
+      "src": "backend/main.py",
+      "use": "@vercel/python"
     }
   ],
   "routes": [
@@ -19,8 +19,12 @@
       "dest": "backend/main.py"
     },
     {
+      "src": "/static/(.*)",
+      "dest": "/build/static/$1"
+    },
+    {
       "src": "/(.*)",
-      "dest": "build/index.html"
+      "dest": "/build/index.html"
     }
   ]
 }
