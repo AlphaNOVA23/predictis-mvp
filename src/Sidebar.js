@@ -1,13 +1,13 @@
 import React from 'react';
 import { Nav } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import { 
-  Grid1x2Fill, 
-  GraphUp, 
-  PeopleFill, 
-  MegaphoneFill, 
-  ClockHistory, 
-  GearFill 
+import {
+  Grid1x2Fill,
+  GraphUp,
+  PeopleFill,
+  MegaphoneFill,
+  ClockHistory,
+  GearFill
 } from 'react-bootstrap-icons';
 
 const navItems = [

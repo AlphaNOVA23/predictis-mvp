@@ -44,10 +44,10 @@ export default function Header() {
         
         <Dropdown align="end">
           <Dropdown.Toggle variant="transparent" id="dropdown-user" className="p-0 border-0">
-            <Image 
-              src="https://placehold.co/40x40/0d6efd/white?text=Dr" 
-              alt="Dr. Sharma" 
-              roundedCircle 
+            <Image
+              src="https://placehold.co/40x40/0d6efd/white?text=Dr"
+              alt="Dr. Sharma"
+              roundedCircle
               className="header-avatar"
             />
           </Dropdown.Toggle>

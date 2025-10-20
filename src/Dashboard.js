@@ -50,13 +50,13 @@ export default function Dashboard() {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line 
-            type="monotone" 
-            name="Predicted Admissions" 
-            dataKey="Predicted_Admissions" 
-            stroke="#8884d8" 
-            strokeWidth={2} 
-            activeDot={{ r: 8 }} 
+          <Line
+            type="monotone"
+            name="Predicted Admissions"
+            dataKey="Predicted_Admissions"
+            stroke="#8884d8"
+            strokeWidth={2}
+            activeDot={{ r: 8 }}
           />
         </LineChart>
       </ResponsiveContainer>
